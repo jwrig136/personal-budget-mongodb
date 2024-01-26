@@ -108,8 +108,8 @@ main article h3 {
   font-size: 20px;
 }
 
-main article h4 {
-  font-size: 20px;
+h4 {
+  font-size: 15px;
 }
 
 main article p {
@@ -123,7 +123,7 @@ main article p {
   }
 }
 
-main aside {
+main article aside {
   width: 30%;
   padding: 10px;
   margin-left: 15px;
