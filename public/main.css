@@ -104,15 +104,15 @@ main article {
   margin: 20px;
 }
 
-article h3 {
+main article h3 {
   font-size: 20px;
 }
 
-article h4 {
+main article h4 {
   font-size: 15px;
 }
 
-article p {
+main article p {
   font-size: 14px;
   margin-bottom: 40px;
 }
@@ -123,7 +123,7 @@ article p {
   }
 }
 
-aside {
+main aside {
   width: 30%;
   padding: 10px;
   margin-left: 15px;
