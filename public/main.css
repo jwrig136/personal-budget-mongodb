@@ -98,6 +98,10 @@ main section {
   font-size: 17px;
 }
 
+main section p {
+    text-align: left;
+}
+
 main article {
   width: 100%;
   text-align: left;
@@ -108,7 +112,7 @@ main article h3 {
   font-size: 20px;
 }
 
-h4 {
+main article h4 {
   font-size: 15px;
 }
 
@@ -123,7 +127,7 @@ main article p {
   }
 }
 
-main article aside {
+.extra-content {
   width: 30%;
   padding: 10px;
   margin-left: 15px;
@@ -132,4 +136,20 @@ main article aside {
   text-align: center;
   float: right;
   background-color: #b4c6f0;
+}
+
+.planner {
+  padding: 50px;
+  margin-left: 15px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  text-align: center;
+  float: right;
+  transition: transform 0.2s;
+  width: 40%;
+  height: 40%;
+}
+
+.planner:hover {
+  transform: scale(1.5);
 }
