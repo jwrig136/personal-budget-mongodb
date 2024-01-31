@@ -102,8 +102,12 @@
 
           <h4>Chart</h4>
           <p>
-            <div class = "canvas">
+            <div class = "charts">
             <canvas id="myChart" width="400" height="400"></canvas>
+            <svg width="400" height="400"></svg>
+          </div> 
+          <p>
+            <div class = "chart">
           </div> 
           </p>
         </article>
@@ -114,6 +118,7 @@
       <div class="center">All rights reserved &copy; Fabio Nolasco</div>
     </footer>
 
+    <!-- This is the Chart.js -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"
       integrity="sha512-quHCp3WbBNkwLfYUMd+KwBAgpVukJu5MncuQaWXgCrfgcxCJAq/fo+oqrRKOj+UKEmyMCG3tb8RB63W+EmrOBg=="
@@ -125,6 +130,8 @@
       crossorigin="anonymous"
     ></script>
 
+    /
+    <script src="https://d3js.org/d3.v4.min.js"></script>
     <script>
       var dataSource = {
         datasets: [
@@ -139,7 +146,7 @@
               "#ffc0cb",
               "#ac054d",
               "#33cc33",
-              "#663300"
+              "#ff0000"
             ],
           },
         ],
@@ -166,5 +173,65 @@
 
       getBudget();
     </script>
-  </body>
+
+    <!-- This is the D3JS Chart -->
+    <script>
+      let data =[];
+  
+      var svg = d3.select("svg"),
+        width = +svg.attr("width"),
+        height = +svg.attr("height"),
+        radius = Math.min(width, height) / 2,
+        g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+      var color = d3.scaleOrdinal([
+              "#ffcd56",
+              "#ff6384",
+              "#36a2eb",
+              "#fd6b19",
+              "#8a2be2",
+              "#ffc0cb",
+              "#ac054d",
+              "#33cc33",
+              "#ff0000"
+            ]);
+
+      var pie = d3.pie()
+        .sort(null)
+        .value(function(d) { return d.budget; });
+
+      var path = d3.arc()
+        .outerRadius(radius)
+        .innerRadius(0);
+
+      var inside = d3.arc()
+        .outerRadius(radius - 40)
+        .innerRadius(radius - 40);
+
+      d3.json("/budget", function(error, data) {
+        if (error) throw error;
+
+        var arc = g.selectAll(".arc")
+          .data(pie(data.myBudget))
+          .enter().append("g")
+          .attr("class", "arc");
+
+        arc.append("path")
+          .attr("d", path)
+          .attr("fill", function(d) {
+            return color(d.data.title);
+          });
+
+        arc.append("text")
+          .attr("transform", function(d) {
+            return "translate(" + inside.centroid(d) + ")";
+          })
+          .attr("dy", "0.35em")
+          .text(function(d) {
+            return d.data.title;
+          });
+    });
+</script>
+</body>
+
 </html>

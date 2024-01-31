@@ -154,6 +154,19 @@ main article p {
   transform: scale(1.5);
 }
 
-.canvas{
+.charts{
   width: 50%;
+}
+
+svg {
+  margin-top: 50px;
+}
+.arc text {
+  font: 12px Tahoma, Arial;
+  text-anchor:middle;
+}
+
+.arc path {
+  stroke: #fff;
+  stroke-width: 1px;
 }
