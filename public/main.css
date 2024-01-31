@@ -153,3 +153,7 @@ main article p {
 .planner:hover {
   transform: scale(1.5);
 }
+
+.canvas{
+  width: 50%;
+}
