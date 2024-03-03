@@ -137,17 +137,7 @@
         datasets: [
           {
             data: [],
-            backgroundColor: [
-              "#ffcd56",
-              "#ff6384",
-              "#36a2eb",
-              "#fd6b19",
-              "#8a2be2",
-              "#ffc0cb",
-              "#ac054d",
-              "#33cc33",
-              "#ff0000"
-            ],
+            backgroundColor: [],
           },
         ],
         labels: [],
@@ -163,16 +153,19 @@
 
       function getBudget() {
         axios.get("http://localhost:3000/budget").then(function (res) {
-          for (var i = 0; i < res.data.myBudget.length; i++) {
-            dataSource.datasets[0].data[i] = res.data.myBudget[i].budget;
-            dataSource.labels[i] = res.data.myBudget[i].title;
-            createChart();
+          for (var i = 0; i < res.data.length; i++) {
+            dataSource.datasets[0].data[i] = res.data[i].budget;
+            dataSource.labels[i] = res.data[i].title;
+            dataSource.datasets[0].backgroundColor[i] = res.data[i].color;
           }
+          createChart();
         });
       }
 
       getBudget();
     </script>
+
+    
 
     <!-- This is the D3JS Chart -->
     <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -183,18 +176,7 @@
         radius = Math.min(width, height) / 2,
         g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-      var color = d3.scaleOrdinal([
-              "#ffcd56",
-              "#ff6384",
-              "#36a2eb",
-              "#fd6b19",
-              "#8a2be2",
-              "#ffc0cb",
-              "#ac054d",
-              "#33cc33",
-              "#ff0000"
-            ]);
-
+  
       var pie = d3.pie()
         .sort(null)
         .value(function(d) { return d.budget; });
@@ -210,8 +192,9 @@
       d3.json("/budget", function(error, data) {
         if (error) throw error;
 
+        var color = d3.scaleOrdinal().range(data.map(function(d) { return d.color; }));
         var arc = g.selectAll(".arc")
-          .data(pie(data.myBudget))
+          .data(pie(data))
           .enter().append("g")
           .attr("class", "arc");
 
@@ -226,6 +209,15 @@
             return "translate(" + inside.centroid(d) + ")";
           })
           .attr("dy", "0.35em")
+          .text(function(d) {
+            return d.data.budget;
+          });
+
+          arc.append("text")
+          .attr("transform", function(d) {
+            return "translate(" + inside.centroid(d) + ")";
+          })
+          .attr("dy", "-15px")
           .text(function(d) {
             return d.data.title;
           });
